@@ -1,0 +1,20 @@
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["@netlify/blobs"]
+
+# Frontend keeps using /api/db/<endpoint>  -> rewrite to function with ?endpoint=
+[[redirects]]
+  from = "/api/db/*"
+  to = "/.netlify/functions/db?endpoint=:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/gpt"
+  to = "/.netlify/functions/gpt"
+  status = 200
+  force = true
